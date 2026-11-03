@@ -19,10 +19,10 @@ def test():
 
 Test message from Render.
 
-Bot is connected successfully.
+Everything is working ✅
 """
 
-    r = requests.post(
+    response = requests.post(
         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
         data={
             "chat_id": CHAT_ID,
@@ -30,7 +30,4 @@ Bot is connected successfully.
         }
     )
 
-    return r.text
-
-if __name__ == "__main__":
-    app.run()
+    return response.text
