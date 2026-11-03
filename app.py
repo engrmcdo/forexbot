@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 import requests
 import os
 
@@ -7,39 +7,30 @@ app = Flask(__name__)
 BOT_TOKEN = os.getenv("9175367263:AAE73X5AC5F853kO2TKvPFqfyF8PfoPj2lk")
 CHAT_ID = os.getenv("1299956817")
 
-def send_telegram(message):
-
-    requests.post(
-        f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
-        data={
-            "chat_id": CHAT_ID,
-            "text": message
-        }
-    )
-
 @app.route("/")
 def home():
     return "Mcdo AI Forex Bot Running"
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
+@app.route("/test")
+def test():
 
-    data = request.json
+    msg = """
+🚀 MCDO AI FOREX BOT
 
-    pair = data.get("pair", "Unknown")
-    signal = data.get("signal", "NEUTRAL")
+Test message from Render.
 
-    message = f"""
-🚀 MCDO AI FOREX SIGNAL
-
-Pair: {pair}
-
-Signal: {signal}
-
-#Forex
-#McdoAI
+Bot is connected successfully.
 """
 
-    send_telegram(message)
+    r = requests.post(
+        f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+        data={
+            "chat_id": CHAT_ID,
+            "text": msg
+        }
+    )
 
-    return "OK", 200
+    return r.text
+
+if __name__ == "__main__":
+    app.run()
